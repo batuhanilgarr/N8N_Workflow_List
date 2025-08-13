@@ -1,0 +1,69 @@
+{
+  "name": "VCF Contact Parser",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "vcf-contacts",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "vcf-vcf-contacts-webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse VCF data from webhook\nconst vcfData = $input.first().json;\n\nlet contacts = [];\nlet vcfContent = '';\n\n// Debug: Log the incoming data\nconsole.log('Incoming data keys:', Object.keys(vcfData));\nconsole.log('Body content:', vcfData.body);\nconsole.log('Body type:', typeof vcfData.body);\nconsole.log('Body keys:', vcfData.body ? Object.keys(vcfData.body) : 'no body');\n\n// Handle different input formats - body is where the data actually comes\nif (vcfData.body && typeof vcfData.body === 'string') {\n  vcfContent = vcfData.body;\n} else if (vcfData.body && vcfData.body.body) {\n  // Nested body structure\n  vcfContent = vcfData.body.body;\n} else if (vcfData.body && vcfData.body.vcf) {\n  vcfContent = vcfData.body.vcf;\n} else if (vcfData.body && vcfData.body.file) {\n  vcfContent = vcfData.body.file;\n} else if (vcfData.vcf) {\n  vcfContent = vcfData.vcf;\n} else if (vcfData.file) {\n  vcfContent = vcfData.file;\n} else if (typeof vcfData === 'string') {\n  vcfContent = vcfData;\n}\n\n// If still no content, try to get from raw body\nif (!vcfContent && vcfData.rawBody) {\n  vcfContent = vcfData.rawBody;\n}\n\nconsole.log('VCF Content length:', vcfContent ? vcfContent.length : 0);\nconsole.log('VCF Content preview:', vcfContent ? vcfContent.substring(0, 200) : 'No content');\n\n// Parse VCF content\nif (vcfContent && vcfContent.trim()) {\n  // Split by BEGIN:VCARD\n  const vcfCards = vcfContent.split('BEGIN:VCARD');\n  console.log('Found VCF cards:', vcfCards.length);\n  \n  vcfCards.forEach((card, index) => {\n    if (card.trim() && card.includes('END:VCARD')) {\n      const contact = {};\n      \n      // Extract FN (Full Name)\n      const fnMatch = card.match(/FN:(.+)/i);\n      if (fnMatch) {\n        contact.name = fnMatch[1].trim();\n      }\n      \n      // Extract TEL (Telephone)\n      const telMatches = card.match(/TEL[^:]*:(.+)/gi);\n      if (telMatches && telMatches.length > 0) {\n        contact.phone = telMatches[0].replace(/TEL[^:]*:/i, '').trim();\n        // If multiple phones, store all\n        if (telMatches.length > 1) {\n          contact.phones = telMatches.map(tel => tel.replace(/TEL[^:]*:/i, '').trim());\n        }\n      }\n      \n      // Extract EMAIL\n      const emailMatches = card.match(/EMAIL[^:]*:(.+)/gi);\n      if (emailMatches && emailMatches.length > 0) {\n        contact.email = emailMatches[0].replace(/EMAIL[^:]*:/i, '').trim();\n        if (emailMatches.length > 1) {\n          contact.emails = emailMatches.map(email => email.replace(/EMAIL[^:]*:/i, '').trim());\n        }\n      }\n      \n      // Extract ORG (Organization)\n      const orgMatch = card.match(/ORG:(.+)/i);\n      if (orgMatch) {\n        contact.organization = orgMatch[1].trim();\n      }\n      \n      // Extract TITLE\n      const titleMatch = card.match(/TITLE:(.+)/i);\n      if (titleMatch) {\n        contact.title = titleMatch[1].trim();\n      }\n      \n      // Extract ADR (Address)\n      const adrMatch = card.match(/ADR[^:]*:(.+)/i);\n      if (adrMatch) {\n        contact.address = adrMatch[1].trim();\n      }\n      \n      // Extract NOTE\n      const noteMatch = card.match(/NOTE:(.+)/i);\n      if (noteMatch) {\n        contact.note = noteMatch[1].trim();\n      }\n      \n      // Extract BDAY (Birthday)\n      const bdayMatch = card.match(/BDAY:(.+)/i);\n      if (bdayMatch) {\n        contact.birthday = bdayMatch[1].trim();\n      }\n      \n      // Extract URL\n      const urlMatch = card.match(/URL:(.+)/i);\n      if (urlMatch) {\n        contact.url = urlMatch[1].trim();\n      }\n      \n      // Only add contact if it has at least a name or phone\n      if (contact.name || contact.phone) {\n        contacts.push({\n          name: contact.name || 'İsim bulunamadı',\n          phone: contact.phone || 'Telefon bulunamadı',\n          email: contact.email || '',\n          organization: contact.organization || '',\n          title: contact.title || '',\n          address: contact.address || '',\n          note: contact.note || '',\n          birthday: contact.birthday || '',\n          url: contact.url || '',\n          phones: contact.phones || [],\n          emails: contact.emails || [],\n          originalData: contact\n        });\n        console.log('Added contact:', contact.name || contact.phone);\n      }\n    }\n  });\n}\n\nconsole.log('Total contacts found:', contacts.length);\n\nreturn {\n  json: {\n    success: true,\n    totalContacts: contacts.length,\n    contacts: contacts,\n    debug: {\n      inputData: Object.keys(vcfData),\n      vcfContentLength: vcfContent ? vcfContent.length : 0,\n      vcfCardsFound: vcfContent ? vcfContent.split('BEGIN:VCARD').length - 1 : 0,\n      bodyContent: vcfData.body ? typeof vcfData.body : 'no body',\n      bodyKeys: vcfData.body ? Object.keys(vcfData.body) : [],\n      nestedBodyContent: vcfData.body && vcfData.body.body ? typeof vcfData.body.body : 'no nested body',\n      nestedBodyPreview: vcfData.body && vcfData.body.body ? vcfData.body.body.substring(0, 100) : 'no nested body'\n    }\n  }\n};"
+      },
+      "id": "parse-vcf",
+      "name": "Parse VCF",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "id": "respond",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [680, 300]
+    }
+  ],
+  "connections": {
+    "webhook": {
+      "main": [
+        [
+          {
+            "node": "parse-vcf",
+            "node": "parse-vcf",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "parse-vcf": {
+      "main": [
+        [
+          {
+            "node": "respond",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "1"
+}

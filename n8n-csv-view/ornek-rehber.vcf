@@ -1,0 +1,122 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Ahmet Yılmaz
+TEL:+90 555 123 4567
+EMAIL:ahmet.yilmaz@email.com
+ORG:ABC Teknoloji
+TITLE:Yazılım Geliştirici
+ADR:;;İstanbul;İstanbul;34000;Türkiye
+NOTE:Senior Developer
+BDAY:1985-03-15
+URL:https://ahmetyilmaz.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Ayşe Demir
+TEL:+90 555 987 6543
+TEL:+90 212 555 1234
+EMAIL:ayse.demir@email.com
+EMAIL:ayse.demir@work.com
+ORG:XYZ Ltd
+TITLE:İnsan Kaynakları Müdürü
+ADR:;;Ankara;Ankara;06000;Türkiye
+NOTE:HR Manager
+BDAY:1990-07-22
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Mehmet Kaya
+TEL:+90 555 456 7890
+EMAIL:mehmet.kaya@email.com
+ORG:Delta Şirketi
+TITLE:Satış Temsilcisi
+ADR:;;İzmir;İzmir;35000;Türkiye
+NOTE:Sales Representative
+BDAY:1988-11-08
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Fatma Özkan
+TEL:+90 555 789 0123
+EMAIL:fatma.ozkan@email.com
+ORG:Gamma Holding
+TITLE:Finans Uzmanı
+ADR:;;Bursa;Bursa;16000;Türkiye
+NOTE:Financial Specialist
+BDAY:1992-04-12
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Ali Çelik
+TEL:+90 555 321 6540
+EMAIL:ali.celik@email.com
+ORG:Beta Grup
+TITLE:Operasyon Müdürü
+ADR:;;Antalya;Antalya;07000;Türkiye
+NOTE:Operations Manager
+BDAY:1987-09-30
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Zeynep Arslan
+TEL:+90 555 654 3210
+EMAIL:zeynep.arslan@email.com
+ORG:Omega Corp
+TITLE:Pazarlama Uzmanı
+ADR:;;Adana;Adana;01000;Türkiye
+NOTE:Marketing Specialist
+BDAY:1991-12-05
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Mustafa Şahin
+TEL:+90 555 147 2580
+EMAIL:mustafa.sahin@email.com
+ORG:Sigma Ltd
+TITLE:Üretim Mühendisi
+ADR:;;Konya;Konya;42000;Türkiye
+NOTE:Production Engineer
+BDAY:1986-06-18
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Elif Yıldız
+TEL:+90 555 963 8520
+EMAIL:elif.yildiz@email.com
+ORG:Theta Şirketi
+TITLE:AR-GE Uzmanı
+ADR:;;Trabzon;Trabzon;61000;Türkiye
+NOTE:R&D Specialist
+BDAY:1993-01-25
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Burak Öztürk
+TEL:+90 555 852 9630
+EMAIL:burak.ozturk@email.com
+ORG:Lambda Grup
+TITLE:Sistem Yöneticisi
+ADR:;;Gaziantep;Gaziantep;27000;Türkiye
+NOTE:System Administrator
+BDAY:1989-08-14
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Deniz Korkmaz
+TEL:+90 555 741 8520
+EMAIL:deniz.korkmaz@email.com
+ORG:Phi Holding
+TITLE:İdari İşler Müdürü
+ADR:;;Kayseri;Kayseri;38000;Türkiye
+NOTE:Administrative Manager
+BDAY:1994-02-28
+END:VCARD
